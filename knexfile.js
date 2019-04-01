@@ -7,6 +7,7 @@ module.exports = {
       filename: './data/auth.sqlite3'
     },
     useNullAsDefault: true,
+    debug: true,
     migrations: {
       directory: './data/migrations'
     },
