@@ -5,9 +5,8 @@ const bcrypt = require('bcrypt');
 router.post('/', async (req, res) => {
   let user = req.body;
 
-  const hash = bcrypt.hashSync(user.password, 12);
+  user.password = bcrypt.hashSync(user.password, 12);
 
-  user.password = hash;
   try {
     const newUser = await Register.addUser(user);
     res.status(201).json(newUser);
