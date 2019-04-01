@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Users = require('./users-model.js');
 const bcrypt = require('bcrypt');
+const globalRestricted = require('../middleware/global.js');
 
 function restricted(req, res, next) {
   const { username, password } = req.headers;
@@ -23,6 +24,22 @@ function restricted(req, res, next) {
 }
 
 router.get('/', restricted, (req, res) => {
+  Users.find()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
+
+router.get('/restricted/*', globalRestricted, (req, res) => {
+  Users.find()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => res.send(err));
+});
+
+router.get('/restricted/hello', (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
