@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Login = require('./login-model.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 router.post('/', async (req, res) => {
   let { username, password } = req.body;

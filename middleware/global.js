@@ -1,5 +1,5 @@
 const Users = require('../users/users-model.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 function restricted(req, res, next) {
   const { username, password } = req.headers;

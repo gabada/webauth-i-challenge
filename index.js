@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
+
+const db = require('./data/dbConfig.js');
 
 const server = express();
 const port = 5000;
@@ -15,11 +18,18 @@ const sessionConfig = {
   secret: 'secret4lyfe!CHANGEME',
   cookie: {
     maxAge: 1000 * 60 * 15, // 15 min
-    secure: false
+    secure: false,
+    httpOnly: true // can not access the cookie in JS
   },
-  httpOnly: true, // can not access the cookie in JS
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new KnexSessionStore({
+    tablename: 'sessions',
+    sidfieldname: 'sid',
+    knex: db,
+    createtable: true,
+    clearInterval: 1000 * 60 * 60
+  })
 };
 
 server.use(express.json());
